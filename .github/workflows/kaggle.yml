@@ -1,0 +1,26 @@
+name: Run Kaggle Notebook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-kaggle-notebook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up CircleCI environment variables
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+
+      - name: Install dependencies
+        run: |
+          pip install kaggle
+
+      - name: Run Kaggle Notebook
+        run: |
+          kaggle notebook run --notebook-path Ollama-Server_My_Edits.ipynb
